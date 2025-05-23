@@ -9,21 +9,15 @@
 #include "RightMotor.h"
 #include "GPS.h"
 #include "Compas.h"
-#include "Echolot.h"
-#include "Wifi.h"
-#include "HardDrive.h"
 
 
-class AutoPilot{
+class Drone{
+public:
     static constexpr double DRONE_SPEED = 3.0; // m/s
     LeftMotor leftMotor;
     RightMotor rightMotor;
     Compas compas;
     GPS gps;
-    Wifi wifi;
-    HardDrive hardDrive;
-    Echolot echolot;
-public:
     // stop and rotate to a new angle
     void rotate(double newAngle){
         double currentAngle = compas.get_azimuth();
@@ -67,17 +61,12 @@ public:
     }
     // move for certain amount of time and scan the depth of the sea
     // send data using another function
-    void moveAndScan(double time){
+    void move(double time){
         double stopTime = std::time(0) + time;
         double depth;
-        GPSPosition position;
         leftMotor.set_thrust(1.0);
         rightMotor.set_thrust(1.0);
         do{
-            depth = echolot.get_depth();
-            position = gps.get_position();
-            wifi.send_data(position, depth);
-            hardDrive.writeData(position, depth);
             std::chrono::milliseconds timespan(500);
             std::this_thread::sleep_for(timespan);
         }while(std::time(0) < stopTime);
@@ -103,7 +92,7 @@ public:
             do{
                 position = gps.get_position();
                 distance = computeDistance(position, finishPos);
-                moveAndScan(1);
+                move(1);
             }while(distance > 5 && std::time(0) < stopTime);
         }while(distance > 5);
     }

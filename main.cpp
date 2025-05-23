@@ -1,8 +1,8 @@
-#include "AutoPilot.h"
+#include "Drone.h"
 
 int main() {
     // Initialize autopilot with components
-    AutoPilot autopilot(leftMotor, rightMotor, gps, compas, echolot, wifi, hardDrive);
+    Drone drone;
 
     GPSPosition pos;
     pos.latitude = 10.0;
