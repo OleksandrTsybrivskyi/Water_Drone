@@ -7,6 +7,6 @@ public:
     double get_depth(); // in meters
 
 private:
-    int trigPin;
-    int echoPin;
+    int trigPin = 32;
+    int echoPin = 33;
 };

@@ -4,8 +4,7 @@
 #include <chrono>
 #include <thread>
 
-Echolot::Echolot(int trigPin, int echoPin)
-    : trigPin(trigPin), echoPin(echoPin) {
+Echolot::Echolot(){
     wiringPiSetupGpio();
     pinMode(trigPin, OUTPUT);
     pinMode(echoPin, INPUT);
