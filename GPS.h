@@ -1,16 +1,14 @@
 #pragma once
 #include <HardwareSerial.h>
 
-// Structure to store GPS position data
 struct GPSPosition {
     float latitude;
     float longitude;
 };
 
-// GPS class for reading data from a UART-based GPS sensor
 class GPS {
 private:
-    HardwareSerial& gpsSerial = Serial2;      // Reference to a hardware serial port (UART)
+    HardwareSerial& gpsSerial = Serial2;   
     const int txPin = 17;            // UART0 TX pin (GPIO1)
     const int rxPin = 16;            // UART0 RX pin (GPIO3)
     String buffer = "";             // Buffer for incoming serial data
@@ -42,7 +40,6 @@ public:
         while (gpsSerial.available()) {
             char c = gpsSerial.read();
 
-            // Append character to buffer
             if (c == '\n') {
                 if (buffer.startsWith("$GPGGA") || buffer.startsWith("$GPRMC")) {
                     // Split sentence into comma-separated parts
